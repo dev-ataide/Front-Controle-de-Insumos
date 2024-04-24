@@ -159,7 +159,7 @@ export default function Dashboard({ listDetailUser, listAppointments, listServic
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'filtered_appointments.csv');
+    link.setAttribute('download', 'agendamentos.csv');
     document.body.appendChild(link);
     link.click();
   };
@@ -191,13 +191,13 @@ export default function Dashboard({ listDetailUser, listAppointments, listServic
                   <button onClick={() => setOpenModal(true)} type="submit" className='bg-white hover:bg-aftb_orange rounded-md p-2 text-aftb_blue_active hover:text-white'>Cadastrar</button>
                 </div>
                 <DatePicker
-    selected={selectedDate}
-    onChange={handleDateChange}
-    dateFormat="dd/MM/yyyy"
-    required
-    locale={ptBR}
-    className="text-white cursor-pointer bg-transparent text-lg font-bold border-white hover:bg-aftb_orange border-2 rounded-lg align-middle justify-center items-center text-center w-full"
-/>
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  required
+                  locale={ptBR}
+                  className="text-white cursor-pointer bg-transparent text-lg font-bold border-white hover:bg-aftb_orange border-2 rounded-lg align-middle justify-center items-center text-center w-full"
+                />
 
 
                 <div className="flex items-center space-x-5 text-white  cursor-pointer">
