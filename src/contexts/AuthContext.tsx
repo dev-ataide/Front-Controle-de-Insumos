@@ -104,8 +104,8 @@ export function AuthProvider({ children }: AuthProviderProps){
 
       toast.success('Logado com sucesso!')
 
-      //Redirecionar o user para /dashboard
-      Router.push('/dashboard')
+      //Redirecionar o user para /home
+      Router.push('/home')
 
 
     }catch(err){

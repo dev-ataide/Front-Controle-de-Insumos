@@ -23,6 +23,7 @@ module.exports = {
         aftb_orange: '#FB432C',
         aftb_blue_active: '#264BCC',
         bg_img: '#fcfcfc',
+        aftb_bg_page:'#f1f6fa'
       },
     },
   },

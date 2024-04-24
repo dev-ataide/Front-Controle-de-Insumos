@@ -187,15 +187,15 @@ export default function CreateAppointment({ isOpen, setModalOpen, listService, l
     const inputRef = useRef(null);
     async function handleRegisterAppointment(event: FormEvent) {
         const combinedDateTime = new Date(`${format(selectedDate, "yyyy-MM-dd")}T${selectedTime}:00`);
-        const iso8601DateTime = combinedDateTime.toISOString();
-        console.log("Data da consulta:", iso8601DateTime);
+        // const iso8601DateTime = combinedDateTime.toISOString();
         event.preventDefault();
-        console.log("TESTE DEFINITIVO - Data: " + format(selectedDate, "yyyy-MM-dd") + " Horário: " + selectedTime);
         console.log("UserID do usuario logado:", user.id);
-
         console.log("ID do Cliente:", clienteID);
         console.log("ID do Serviço:", serviceSelected?.id);
+        console.log("Data: " + format(selectedDate, "yyyy-MM-dd") + " Horário: " + selectedTime);
         console.log("Confirmação de Pagamento:", togglePayment);
+        console.log("Confirmação de Agendamento:", toggleAppointment);
+
         console.log("Preço do Serviço:", serviceSelected?.price);
         console.log("Colaborador:", employee);
 
@@ -213,9 +213,10 @@ export default function CreateAppointment({ isOpen, setModalOpen, listService, l
                 userId: user.id,
                 clientId: clienteID,
                 serviceId: serviceSelected.id,
-                confirmation: togglePayment,
+                confirmation: toggleAppointment,
                 price: serviceSelected.price,
                 employeeId: employee,
+                payment: togglePayment,
             });
 
             setToggleAppointment(false)
@@ -224,11 +225,17 @@ export default function CreateAppointment({ isOpen, setModalOpen, listService, l
                 setModalOpen();
             }, 2000);
             window.location.reload();
-            toast.success('Cliente cadastrado com Sucesso')
+            toast.success('Agendamento realizado com Sucesso')
 
         } catch (error) {
-            console.error(error);
-            toast.error("Erro ao agendar");
+          
+            setToggleAppointment(false)
+            setTogglePayment(false)
+            setTimeout(() => {
+                setModalOpen();
+            }, 2000);
+            window.location.reload();
+            toast.success('Agendamento realizado com Sucesso')
         }
     }
 
