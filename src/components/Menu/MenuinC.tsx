@@ -58,7 +58,7 @@ const Menu = ({ userDetail }) => {
               proxima att
             </span>
           </a> */}
-          <a className="w-full font-thin uppercase text-gray-500 dark:text-aftb_blue_active flex items-center p-4 my-2 transition-colors duration-200 justify-start hover:text-aftb_orange border-r-4 dark:border-transparent dark:from-gray-700 dark:to-gray-800 hover:border-aftb_orange" href="/agendamentos">
+          <a className="w-full font-thin uppercase text-gray-500 dark:text-aftb_blue_active flex items-center p-4 my-2 transition-colors duration-200 justify-start hover:text-aftb_orange border-r-4 dark:border-transparent dark:from-gray-700 dark:to-gray-800 hover:border-aftb_orange" href="/servico">
             <span className="text-left">
               <svg fill="currentColor" width="20px" height="20px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
 
@@ -79,7 +79,7 @@ const Menu = ({ userDetail }) => {
               </svg>
             </span>
             <span className="mx-4 text-sm font-normal">
-              Calendario
+              Serviços
             </span>
           </a>
           <a className="w-full font-thin uppercase text-gray-500 dark:text-aftb_blue_active flex items-center p-4 my-2 transition-colors duration-200 justify-start hover:text-aftb_orange border-r-4 dark:border-transparent dark:from-gray-700 dark:to-gray-800 hover:border-aftb_orange" href="/client">
@@ -93,7 +93,7 @@ const Menu = ({ userDetail }) => {
               Clientes
             </span>
           </a>
-          <a className="w-full font-thin uppercase text-gray-500 dark:text-aftb_blue_active flex items-center p-4 my-2 transition-colors duration-200 justify-start hover:text-aftb_orange border-r-4 dark:border-transparent dark:from-gray-700 dark:to-gray-800 hover:border-aftb_orange" href="/dashboards">
+          <a className="w-full font-thin uppercase text-gray-500 dark:text-aftb_blue_active flex items-center p-4 my-2 transition-colors duration-200 justify-start hover:text-aftb_orange border-r-4 dark:border-transparent dark:from-gray-700 dark:to-gray-800 hover:border-aftb_orange" href="/dashboard">
             <span className="text-left">
               <svg width="20" height="20" className="m-auto" fill="currentColor" viewBox="0 0 2048 1792" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">

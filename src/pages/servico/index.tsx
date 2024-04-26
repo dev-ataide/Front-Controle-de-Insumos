@@ -107,7 +107,22 @@ export default function ServicosDashboard({ listDetailUser, listService }: UserP
     });
     setEditStates(initialEditStates);
   }, [listService]);
+  const handleDownload = () => {
+    // Função para baixar os itens filtrados (exemplo usando CSV)
+    const csvContent = 'data:text/csv;charset=utf-8,';
 
+    listService.forEach((servico) => {
+
+
+        csvContent += `${servico.name},${servico.price},${servico.description}`;
+    });
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'servicos.csv');
+    document.body.appendChild(link);
+    link.click();
+};
   return (
     <>
       <Head>
@@ -120,11 +135,52 @@ export default function ServicosDashboard({ listDetailUser, listService }: UserP
         </div>
         <div className='order-3 flex flex-col w-full'>
           {/* Top */}
-          <Top userDetail={userDetail} />
+          <div className='flex-block  flex-col justify-center overflow-hidden bg-gray-50 t-0'>
+                        <div className="flex items-center justify-between border-b bg-aftb_blue_active p-3">
+                            <div className="flex items-center space-x-2 rounded  py-1 px-2 ">
+
+                                <button onClick={() => setOpenModal(true)} type="submit" className='bg-white hover:bg-aftb_orange rounded-md p-2 text-aftb_blue_active hover:text-white'>Cadastrar</button>
+                            </div>
+
+                            <div className="container align-middle justify-center items-center z-50 flex w-4/4 h-auto h-full">
+                                <div className="relative flex items-center w-full lg:w-64 h-full group">
+                                    <div className="absolute z-50 flex items-center justify-center block w-auto h-10 p-3 pr-2 text-sm text-gray-500 uppercase cursor-pointer sm:hidden">
+                                        <svg fill="none" className="relative w-5 h-5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <svg className="absolute left-0 z-20 hidden w-4 h-4 ml-4 text-gray-500 pointer-events-none fill-current group-hover:text-gray-400 sm:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">
+                                        </path>
+                                    </svg>
+                                    <input type="text" className="block w-full py-1.5 pl-10 pr-4 leading-normal rounded-2xl focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ring-opacity-90 bg-gray-200 text-gray-500 aa-input" placeholder="Nome do serviço" />
+                                    <div className="absolute right-0 hidden h-auto px-2 py-1 mr-2 text-xs text-gray-400 border border-gray-300 rounded-2xl md:block">
+                                        +
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center space-x-5 text-white  cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 hover:text-aftb_orange">
+                                    <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 hover:text-aftb_orange">
+                                    <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm6.905 9.97a.75.75 0 00-1.06 0l-3 3a.75.75 0 101.06 1.06l1.72-1.72V18a.75.75 0 001.5 0v-4.19l1.72 1.72a.75.75 0 101.06-1.06l-3-3z" clip-rule="evenodd" />
+                                    <path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 hover:text-aftb_orange" onClick={handleDownload}>
+                                    <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zm5.845 17.03a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V12a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3z" clip-rule="evenodd" />
+                                    <path d="M14.25 5.25a5.23 5.23 0 00-1.279-3.434 9.768 9.768 0 016.963 6.963A5.23 5.23 0 0016.5 7.5h-1.875a.375.375 0 01-.375-.375V5.25z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
           <div className="container mx-auto px-2 sm:px-8 ">
             <div>
               <CriarServico isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)} />
             </div>
+          
             {listService.length === 0 ? (
               <div className="flex flex-col items-center h-[80%] mt-[100px] text-red-500 font-semibold  align-middle justify-center">
                 <div style={{ fontSize: "25px" }}>Por favor, recarregue a página para cadastrar um serviço.</div>
@@ -192,31 +248,46 @@ export default function ServicosDashboard({ listDetailUser, listService }: UserP
                     </div>
                   ))}
                 </div>
-                <div className='mt-10'>
-                  <div className='absolute top-4/4 left-72'>
-                    <div className="flex items-center justify-end">
-                      <button onClick={() => setOpenModal(true)} type="submit" className='bg-blue-600 hover:bg-blue-700 rounded-md p-2 text-white'>Cadastrar</button>
-                    </div>
-                  </div>
-                  {currentItens.map ? (
-                    <div className='absolute top-4/4 right-12'>
-                      <div className="flex items-center justify-end">
-                        <button onClick={goPrevPage} className='bg-blue-600 hover:bg-blue-700 rounded-md p-2 text-white'>Página Anterior</button>
-                        {Array.from(Array(pages), (index) => (
-                          <button key={index} onClick={() => goToPage(index)} ></button>
-                        ))}
-                        <span className='m-3 bg-slate-200 rounded-md p-2'>
-                          {currentPage + 1}/{pages}
-                        </span>
-                        <button onClick={goNextPage} className='bg-blue-600 hover:bg-blue-700 rounded-md p-2 text-white'>Próxima Página</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-black"></div>
-                  )}
-                </div>
+             
               </div>
             )}
+              <div className='mt-10'>
+
+
+<section className="container px-4 mx-auto">
+  
+  {currentItens.map ? (
+    <div className="flex items-center justify-between mt-6">
+      <a onClick={goPrevPage} className="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 border-aftb_blue_active hover:border-white  bg-white  hover:bg-aftb_orange hover:text-white text-aftb_blue_active border rounded-md gap-x-2 ">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 rtl:-scale-x-100">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+        </svg>
+
+        <span>
+          Anterior
+        </span>
+      </a>
+
+      <span className='8 bg-slate-200 rounded-md p-2'>
+        {currentPage + 1}/{pages}
+      </span>
+      <a onClick={goNextPage} className="flex items-center px-5 py-2 text-sm  capitalize transition-colors duration-200 border-aftb_blue_active hover:border-white  bg-white  hover:bg-aftb_orange hover:text-white text-aftb_blue_active border rounded-md gap-x-2 ">
+        <span>
+          Próxima
+        </span>
+
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 rtl:-scale-x-100">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+        </svg>
+      </a>
+    </div>
+  ) : (
+    <h1>oi</h1>
+  )}
+
+</section>
+
+</div>
           </div>
         </div>
       </div>
