@@ -7,6 +7,11 @@ import { useState } from "react";
 import CreateClient from "../../components/modals/client/createClient";
 import CreateAppointment from "../../components/modals/appointment/createAppointment";
 import { useEffect } from "react";
+import ModalClient from "./modalClient";
+import Modal from "react-modal";
+
+
+
 type ItemProps = {
   id: string;
   name: string;
@@ -21,17 +26,51 @@ type ClientProps = {
   observer: string;
   cpf: string;
 };
-
+export type History = {
+  id: string;
+  date: string,
+  clientId: string,
+  serviceId: string,
+  confirmation: boolean,
+  price: string,
+  payment: boolean,
+  client: {
+    id: string,
+    photo: string,
+    name: string,
+    email: string,
+    contact: string,
+    observer: string,
+    cpf: string,
+  },
+  service: {
+    id: string,
+    name: string,
+    description: string,
+    price: string,
+  },
+  employee: {
+    id: string,
+    photo: string,
+    name: string,
+    email: string,
+    contact: string,
+    observer: string,
+    cpf: string,
+  }
+}
 
 
 interface UserProps {
   listDetailUser: ItemProps;
   listClient: ClientProps[];
+  History: History[];
 }
 
 export default function Client({ listDetailUser, listClient }: UserProps) {
   const [userDetail, setUserDetail] = useState(listDetailUser);
   const [openModal, setOpenModal] = useState(false);
+  const [ListClient, setlistClient] = useState(listClient)
 
   const [itens, setItens] = useState([])
   const [itensPerPage, setItensPerPage] = useState(5)
@@ -39,14 +78,14 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
 
   const startIndex = currentPage * itensPerPage;
   const endIndex = startIndex + itensPerPage;
-  const currentItens = listClient.slice(startIndex, endIndex);
+  const currentItens = ListClient.slice(startIndex, endIndex);
 
   const pages = Math.ceil(listClient.length / itensPerPage);
 
   const [filtro, setFiltro] = useState(''); // Estado para armazenar o valor selecionado no filtro
 
-
-
+  const [modalHistory, setModalHistory] = useState<History[]>();
+  const [modalVisible, setModalVisible] = useState(false)
   // Função para lidar com a mudança no valor do filtro
   const handleFiltroChange = (event) => {
     setFiltro(event.target.value);
@@ -70,6 +109,7 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
       setOpenModal(true);
     }
   }, [listClient]);
+
   const handleDownload = () => {
     // Função para baixar os itens filtrados (exemplo usando CSV)
     const csvContent = 'data:text/csv;charset=utf-8,';
@@ -86,10 +126,46 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
     document.body.appendChild(link);
     link.click();
   };
+
+  async function handleRefresh() {
+    try {
+      const apiClient = setupAPIClient();
+      const userResponse = await apiClient.get('/me');
+      const ListClientResponse = await apiClient.get('/clientlist', {
+        params: { userId: userResponse.data.id },
+      });
+
+      // Atualize ListClientList com os novos dados retornados pela API
+      setlistClient(ListClientResponse.data);
+
+
+    } catch (error) {
+      console.error('Erro durante a execução de handleRefresh:', error);
+    }
+  }
+
+
+  function handleCloseModal() {
+    setModalVisible(false)
+  }
+
+  async function handleOpenModalHistory(id: string) {
+    const apiClient = setupAPIClient()
+    const userResponse = await apiClient.get('/me');
+    const userId = userResponse.data.id
+    const clientId = id
+    const HistoryResponse = await apiClient.get(`/appointments/${userId}/${clientId}`);
+    console.log('booking' + HistoryResponse.data)
+    setModalHistory(HistoryResponse.data)
+    setModalVisible(true)
+  }
+
+  Modal.setAppElement('#__next')
+
   return (
     <>
       <Head>
-        <title>appointments</title>
+        <title>Clientes</title>
       </Head>
       <div className='flex flex-row'>
         <div className='order-1'>
@@ -100,7 +176,6 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
           {/* Top */}
           <div>
             <CreateClient isOpen={openModal} setModalOpen={() => setOpenModal(!openModal)}></CreateClient>
-
           </div>
           <div className='flex-block  flex-col justify-center overflow-hidden bg-gray-50 t-0'>
             <div className="flex items-center justify-between border-b bg-aftb_blue_active p-3">
@@ -109,7 +184,7 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
                 <button onClick={() => setOpenModal(true)} type="submit" className='bg-white hover:bg-aftb_orange rounded-md p-2 text-aftb_blue_active hover:text-white'>Cadastrar</button>
               </div>
 
-              <div className="container align-middle justify-center items-center z-50 flex w-4/4 h-auto h-full">
+              <div className="container align-middle justify-center items-center z-0 flex w-4/4 h-auto h-full">
                 <div className="relative flex items-center w-full lg:w-64 h-full group">
                   <div className="absolute z-50 flex items-center justify-center block w-auto h-10 p-3 pr-2 text-sm text-gray-500 uppercase cursor-pointer sm:hidden">
                     <svg fill="none" className="relative w-5 h-5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,11 +255,16 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
                                 </th>
 
                                 <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-white">
-                                  Observações
+                                  Detalhes
                                 </th>
+                                <th>
+                                  <button className='pt-1' onClick={handleRefresh}>
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M21 12C21 16.9706 16.9706 21 12 21C9.69494 21 7.59227 20.1334 6 18.7083L3 16M3 12C3 7.02944 7.02944 3 12 3C14.3051 3 16.4077 3.86656 18 5.29168L21 8M3 21V16M3 16H8M21 3V8M21 8H16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                  </button>
 
-
-
+                                </th>
                               </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -227,8 +307,10 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
                                   <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
                                     <span>{client.email}</span>
                                   </td>
-                                  <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                    <span>{client.observer}</span>
+                                  <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap align-middle justify-center items-center">
+                                    <button onClick={() => handleOpenModalHistory(client.id)}>
+                                      <svg fill="#344293" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z" /></svg>
+                                    </button>
                                   </td>
 
                                 </tr>
@@ -275,6 +357,14 @@ export default function Client({ listDetailUser, listClient }: UserProps) {
 
           )}
         </div>
+
+        {modalVisible &&
+          <ModalClient
+          isOpen={modalVisible}
+          isClose={handleCloseModal}
+          History={modalHistory}
+          ></ModalClient>
+        }
       </div>
     </>
   );

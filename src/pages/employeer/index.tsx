@@ -3,12 +3,10 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import CriarEmployeer from '../../components/modals/employeer/createEmployeer';
 import Menu from '../../components/Menu/MenuinC';
-import Top from '../../components/Menu/Top';
 import { canSSRAuth } from '../../utils/canSSRAuth';
 import { setupAPIClient } from '../../services/api';
 import { format, isToday, isSameDay } from 'date-fns';
-import DatePicker from "react-datepicker";
-import ptBR from 'date-fns/locale/pt-BR';
+
 
 type EmployeeProps = {
     id: string;
@@ -33,13 +31,13 @@ interface UserProps {
 export default function ServicosDashboard({ listDetailUser, listEmployee }: UserProps) {
     const [openModal, setOpenModal] = useState(false);
     const [userDetail] = useState(listDetailUser);
-
+    const [employeeList, setEmployeeList] = useState(listEmployee)
     const [currentPage, setCurrentPage] = useState(0);
     const itensPerPage = 4;
 
     const startIndex = currentPage * itensPerPage;
     const endIndex = startIndex + itensPerPage;
-    const currentItens = listEmployee.slice(startIndex, endIndex);
+    const currentItens = employeeList.slice(startIndex, endIndex);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     const pages = Math.ceil(listEmployee.length / itensPerPage);
@@ -81,10 +79,28 @@ export default function ServicosDashboard({ listDetailUser, listEmployee }: User
         link.click();
     };
 
+    async function handleRefresh() {
+        try {
+            const apiClient = setupAPIClient();
+            const userResponse = await apiClient.get('/me');
+            const employeeResponse = await apiClient.get('/employeelist', {
+                params: { userId: userResponse.data.id },
+            });
+            
+            // Atualize employeeList com os novos dados retornados pela API
+            setEmployeeList(employeeResponse.data);
+            console.log('lista de empregados' + employeeList)
+            console.log('currentItens:', currentItens);
+
+        } catch (error) {
+            console.error('Erro durante a execução de handleRefresh:', error);
+        }
+    }
+
     return (
         <>
             <Head>
-                <title>Serviços - Clinica Cfit</title>
+                <title>Colaboradores</title>
             </Head>
             <div className='flex flex-row'>
                 <div className='order-1'>
@@ -191,24 +207,22 @@ export default function ServicosDashboard({ listDetailUser, listEmployee }: User
                                                                         Email
                                                                     </th>
                                                                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-white">
-                                                                        Observações
+                                                                        Detalhes
                                                                     </th>
+                                                                    <th>
+                                                                        <button className='pt-1' onClick={handleRefresh}>
+                                                                            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                <path d="M21 12C21 16.9706 16.9706 21 12 21C9.69494 21 7.59227 20.1334 6 18.7083L3 16M3 12C3 7.02944 7.02944 3 12 3C14.3051 3 16.4077 3.86656 18 5.29168L21 8M3 21V16M3 16H8M21 3V8M21 8H16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                            </svg>
+                                                                        </button>
 
+                                                                    </th>
 
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="bg-white divide-y divide-gray-200">
-                                                                {listEmployee.map((colaborador) => (
+                                                                {currentItens.map((colaborador) => (
                                                                     <tr key={colaborador.name}>
-                                                                        {/* <td className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                                    <div className="inline-flex items-center gap-x-3">
-                                      <input type="checkbox" className="text-blue-500 border-gray-300 rounded" />
-
-                                      <span>#3066</span>
-                                    </div>
-                                  </td> */}
-
-
                                                                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                                                             <div className="flex items-center gap-x-2">
                                                                                 <img src={`http://localhost:3333/files/${colaborador.photo}`} alt="profil" className="object-cover rounded-full h-10 w-10 " />
@@ -228,8 +242,10 @@ export default function ServicosDashboard({ listDetailUser, listEmployee }: User
                                                                         <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
                                                                             <span>{colaborador.email}</span>
                                                                         </td>
-                                                                        <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                                            <span>{colaborador.observer}</span>
+                                                                        <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap align-middle justify-center items-center">
+                                                                            <button>
+                                                                                <svg fill="#344293" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12z" /></svg>
+                                                                            </button>
                                                                         </td>
 
                                                                     </tr>
