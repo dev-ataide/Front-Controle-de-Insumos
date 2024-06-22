@@ -1,0 +1,122 @@
+[
+  {
+    "id": 21,
+    "nome": "Dexametasona",
+    "CódigoMP": 2335,
+    "UND": "kg",
+    "Lote01": 19486,
+    "Quantidade": 0.625,
+    "Validade": "31/12/24",
+    "Prev.deConsumo": "fevereiro-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 22,
+    "nome": "Enalapril",
+    "CódigoMP": 2340,
+    "UND": "kg",
+    "Lote01": 19423,
+    "Quantidade": 5.8,
+    "Validade": "31/03/25",
+    "Prev.deConsumo": "julho-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 23,
+    "nome": "Furosemida",
+    "CódigoMP": 2341,
+    "UND": "kg",
+    "Lote01": 19368,
+    "Quantidade": 3.25,
+    "Validade": "31/05/25",
+    "Prev.deConsumo": "junho-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 24,
+    "nome": "Sinvastatina",
+    "CódigoMP": 2331,
+    "UND": "kg",
+    "Lote01": 19512,
+    "Quantidade": 12.85,
+    "Validade": "15/05/24",
+    "Prev.deConsumo": "abril-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "ATUALIZADO"
+  },
+  {
+    "id": 25,
+    "nome": "Azitromicina",
+    "CódigoMP": 2332,
+    "UND": "kg",
+    "Lote01": 19518,
+    "Quantidade": 8.5,
+    "Validade": "30/03/25",
+    "Prev.deConsumo": "junho-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "ATUALIZADO"
+  },
+  {
+    "id": 26,
+    "nome": "Cloridrato de Propranolol",
+    "CódigoMP": 2347,
+    "UND": "kg",
+    "Lote01": 19492,
+    "Quantidade": 4.75,
+    "Validade": "30/11/24",
+    "Prev.deConsumo": "fevereiro-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 27,
+    "nome": "Cloridrato de Sertralina",
+    "CódigoMP": 2356,
+    "UND": "kg",
+    "Lote01": 19463,
+    "Quantidade": 7.3,
+    "Validade": "31/01/25",
+    "Prev.deConsumo": "março-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 28,
+    "nome": "Paracetamol",
+    "CódigoMP": 2261,
+    "UND": "kg",
+    "Lote01": 19164,
+    "Quantidade": 0.04,
+    "Validade": "30/08/25",
+    "Prev.deConsumo": "SEM PREVISÃO",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 29,
+    "nome": "Ibuprofeno",
+    "CódigoMP": 2301,
+    "UND": "kg",
+    "Lote01": 19452,
+    "Quantidade": 81.7957,
+    "Validade": "30/03/25",
+    "Prev.deConsumo": "abril-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  },
+  {
+    "id": 30,
+    "nome": "Diclofenaco",
+    "CódigoMP": 2307,
+    "UND": "kg",
+    "Lote01": 19367,
+    "Quantidade": 3.1563,
+    "Validade": "30/05/25",
+    "Prev.deConsumo": "março-24",
+    "CustoUnit.": 11775.75,
+    "STATUS": "DESATUALIZADO"
+  }
+]

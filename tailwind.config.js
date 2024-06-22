@@ -12,8 +12,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        aftb_blue_dark: '#344293',
-        aftb_blue_active: '#6774BD',
+        aftb_blue_dark: '#5D5FEF',
+        aftb_blue_active: '#5D5FEF',
         aftb_title: '#6B6B6B',
         aftb_greenbuton : '#2ED47A',
         aftb_redbuton : '#FF0010',
@@ -24,6 +24,15 @@ module.exports = {
         aftb_blue_active: '#264BCC',
         bg_img: '#fcfcfc',
         aftb_bg_page:'#f1f6fa'
+      },
+        fontSize: {
+          sm: '0.8rem',
+          base: '1rem',
+          xl: '1.25rem',
+          '2xl': '1.563rem',
+          '3xl': '1.953rem',
+          '4xl': '2.441rem',
+          '5xl': '3.052rem',
       },
     },
   },
